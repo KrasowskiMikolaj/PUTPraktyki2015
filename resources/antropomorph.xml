@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  
+  <Leq name="antro" dof="3" segmentsNo="3">
+  </Leg>
+  
+  <Joint0 controller="servo.xml" axisX="0" axisY="1" axisZ="0" centerX="0" centerY="1" centerZ="0">
+  </Joint0>
+  
+  <Joint1 controller="servo.xml" axisX="0" axisY="1" axisZ="0" centerX="0" centerY="1" centerZ="0">
+  </Joint0>
+  
+  <Joint2 controller="servo.xml" axisX="0" axisY="1" axisZ="0" centerX="0" centerY="1" centerZ="0">
+  </Joint0>
+  
+  <Segment0 mass="" sizeX="" sizeY="" sizeZ="" centerX="0" centerY="0" centerZ="0" centerRoll="0" centerPitch="0" centerYaw="0">
+  </Segment>
+  
+  <Foot axisX="0" axisY="1" axisZ="0" centerX="0" centerY="1" centerZ="0">
+  </Foot>

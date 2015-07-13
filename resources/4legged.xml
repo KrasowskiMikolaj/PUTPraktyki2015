@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  
+  <Robot name="4legged" legsNo="4" initPositionX="0" initPositionY="0" initPositionZ="0" initRoll="0" initPitch="0" initYaw="0">
+    <RobotBody mass="4" ></RobotBody>
+  </Robot>
+    
+  <Leg0 type="antropomorph" config="antropomorph.xml" attachX="0" attachY="0" attachZ="0" attachRoll="0" attachPitch="0" attachYaw="0">
+  </Leg>
+  
+  <Leg1 type="antropomorph" config="antropomorph.xml" attachX="0" attachY="0" attachZ="0" attachRoll="0" attachPitch="0" attachYaw="0">
+  </Leg>
