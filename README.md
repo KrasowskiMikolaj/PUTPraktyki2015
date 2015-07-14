@@ -1,1 +1,1 @@
-# PUTPrakyki2015
+# PUTPraktyki2015
