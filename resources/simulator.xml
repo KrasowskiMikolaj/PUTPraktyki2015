@@ -7,4 +7,9 @@
   <Robot type="4Legged" config="4legged.xml">
   </Robot>
   
+  <Visualizer>
+  	<name>Visualizer</name>
+  	<parametersFile>visualizerConfig.xml</parametersFile>
+  </Visualizer>
+  
   

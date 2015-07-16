@@ -3,7 +3,7 @@
  */
 
 
-#include "simulator.h"
+#include "../../include/Simulator/simulator.h"
 
 /**
  * simulator implementation
@@ -13,20 +13,19 @@
 /**
  * @return void
  */
-void simulator::startSimulation() {
+void Simulator::startSimulation() {
     return;
 }
 
 /**
  * @return void
  */
-void simulator::stopSimulation() {
+void Simulator::stopSimulation() {
     return;
 }
 
 /**
  * @return Vec3
  */
-Vec3 simulator::getRobotState() {
-    return null;
+std::vector<Mat34> Simulator::getRobotState() {
 }

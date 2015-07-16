@@ -2,5 +2,5 @@
 
 <!-- Visualizer configuration -->
   <Ground>
-  	<parameters friction=""></parameters>
+  	<parameters friction="1.1"></parameters>
   </Ground>

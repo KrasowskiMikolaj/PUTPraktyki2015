@@ -1,6 +1,6 @@
 /** @file defs.h
 *
-* Tutorial definitions
+* Simulator definitions
 *
 */
 
@@ -14,7 +14,7 @@
 #include "../../3rdParty/Eigen/Geometry"
 
 /// putslam name space
-namespace tutorial {
+namespace simulator {
 
     /// putslam default floating point
     typedef double float_type;
@@ -31,29 +31,36 @@ namespace tutorial {
 	/// Homogeneous representation of SE(3) rigid body transformations
     typedef Eigen::Transform<double, 3, Eigen::Affine> Mat34;
 
-    /// 3D point representation
-    typedef Vec3 Point3D;
+    /// configuration of the robot
+    typedef std::vector<float_type> RobotConfiguration;
 
-    /// 3D point cloud representation
-    typedef std::vector<Point3D> PointCloud;
+    class TorqueForce {
+    public:
+        ///force values
+        Vec3 force;
 
-    /// Sensor Frame representation
-    class SensorFrame {
-        public:
-            /// sequence of images
-            typedef std::vector<SensorFrame> Seq;
+        ///torque values
+        Vec3 torque;
 
-            /// XYZ point cloud
-            PointCloud cloud;
+        ///susceptibility values
+        std::vector<float_type> susceptibility;
 
-            /// timestamp
-            float_type timestamp;
-
-            /// Default constructor
-            inline SensorFrame() : timestamp(0){
-            }
     };
 
+    class RogidBody {
+    public:
+        /// mass
+        float_type mass;
+
+        /// size
+        Vec3 size;
+
+        /// center
+        Vec3 center;
+
+        /// orientation
+        Quaternion orientation;
+    };
     //exception class goes here
 
 }
