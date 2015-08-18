@@ -6,6 +6,7 @@
 #include <chrono>
 #include <GL/glut.h>
 
+
 using namespace simulator;
 
 /// A single instance of Visualizer

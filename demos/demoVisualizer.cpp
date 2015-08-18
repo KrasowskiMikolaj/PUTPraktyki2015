@@ -5,17 +5,20 @@
 #include <GL/glut.h>
 #include <qapplication.h>
 #include <iostream>
+#include <thread>
 
 using namespace std;
 
 Simulator* sim;
 
 // run PUTSLAM
-/*void runPUTSLAM(){
-    std::cout << "Press Enter to start\n";
-    getchar();
-    slam.get()->startProcessing();
-}*/
+void runPUTSLAM(){
+    //std::cout << "Press Enter to start\n";
+    //getchar();
+    ((SimulatorODE *)sim)->startSimulation();
+    std::cout << sim->getName() << "\n";
+    sim->stopSimulation();
+}
 
 int main(int argc, char** argv)
 {
@@ -38,17 +41,17 @@ int main(int argc, char** argv)
         QGLVisualizer visu(configVis);
 
         visu.setWindowTitle("Simulator viewer");
-
+std::cout << "df\n";
         // Make the viewer window visible on screen.
         visu.show();
         sim->attachVisualizer(&visu);
-
+std::cout << "df1\n";
         // run PUTSLAM
-        //std::thread tSLAM(runPUTSLAM);
-
+        std::thread tSLAM(runPUTSLAM);
+std::cout << "df2\n";
         // Run main loop.
         application.exec();
-        //tSLAM.join();
+        tSLAM.join();
 
         return 1;
     }
