@@ -28,10 +28,10 @@ namespace simulator {
         virtual const std::string& getName() const { return name; }
 
         ///
-        void startSimulation();
+        virtual void startSimulation()=0;
 
         ///
-        void stopSimulation();
+        virtual void stopSimulation()=0;
 
         ///Attach visualizer
         virtual void attachVisualizer(QGLVisualizer* visualizer) = 0;

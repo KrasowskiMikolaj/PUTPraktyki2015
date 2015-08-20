@@ -28,11 +28,11 @@ public:
     /// Pointer
     typedef std::unique_ptr<SimulatorODE> Ptr;
     ///ODE World
-    static dWorldID World;
+    static dWorldID world;
     ///ODE Space
-    dSpaceID Space;
+    dSpaceID space;
 
-#define MAX_CONTACTS 5
+#define MAX_CONTACTS 1
 
 //    MATRIX GeomMatrix;
 #define GEOMSPERBODY 1  // maximum number of geometries per body

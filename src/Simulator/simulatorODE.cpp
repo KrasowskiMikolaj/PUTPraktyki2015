@@ -9,7 +9,27 @@
  * simulatorODE implementation
  */
 dJointGroupID SimulatorODE::contactgroup;
-dWorldID SimulatorODE::World;
+dWorldID SimulatorODE::world;
+
+
+/*TEST*/
+static dBodyID cylbody;
+static dGeomID cylgeom;
+
+static dBodyID sphbody;
+static dGeomID sphgeom;
+#define CYLRADIUS    0.6
+#define CYLLENGTH    2.0
+#define SPHERERADIUS 0.5
+
+
+#ifdef dDOUBLE
+#define dsDrawBox dsDrawBoxD
+#define dsDrawLine dsDrawLineD
+#endif
+/*TEST END*/
+
+
 
 using namespace simulator;
 
@@ -54,53 +74,64 @@ void SimulatorODE::stopSimulation(){
 }
 
 void SimulatorODE::InitODE(){
-  World=dWorldCreate();
-      Space=dSimpleSpaceCreate(0);
+    world=dWorldCreate();
+    space=dSimpleSpaceCreate(0);
     contactgroup = dJointGroupCreate(0);
-    dCreatePlane(Space,0,1,0,0);
-    dWorldSetGravity(World, 0,-1.0,0);
-    dWorldSetERP(World, 0.2);
-    dWorldSetCFM(World, 1e-5);
-    dWorldSetContactMaxCorrectingVel(World, 0.9);
-    dWorldSetContactSurfaceLayer(World, 0.001);
-    dWorldSetAutoDisableFlag(World, 1);
-
+    dCreatePlane(space,0,1,0,0);
+    dWorldSetGravity(world, 0,-9.81,0);
+    dWorldSetERP(world, 0.2);
+    dWorldSetCFM(world, 1e-5);
+    dWorldSetContactMaxCorrectingVel(world, 0.9);
+    dWorldSetContactSurfaceLayer(world, 0.001);
+    dWorldSetAutoDisableFlag(world, 1);
+    dInitODE();
     dMatrix3 R;
     dMass m;
-    double mass =12;
+    double mass = 24;
+    Object.Body = dBodyCreate(world);
     double sides[3];
-            // Set up for static object - rama glowna
-            sides[0] = 1;
-            sides[1] = 1;
-            sides[2] = 1;
-    dBodySetMass(Object.Body, &m);
 
-
+        // Set up for static object - rama glowna
+        sides[0] = 0.03;
+        sides[1] = 0.03;
+        sides[2] = 0.03;
         dBodySetPosition(Object.Body, 0, 10, 0);
         dBodySetLinearVel(Object.Body, 0, 0, 0);
         dRFromAxisAndAngle(R, 1, 0, 0, 0);
         dBodySetRotation(Object.Body, R);
-        std::cout << "dd1\n";
+         //ustawia gestosc dla masy dMassSetBoxTotal
+        dMassSetParameters(&m,mass,0,0,0,1,1,1,0,0,0);
 
-        Object.Geom[0] = dCreateBox(Space, sides[0], sides[1], sides[2]);
-        dMassSetParameters(&m,mass,sides[0],sides[1],sides[2],1,1,1,0,0,0);
-        std::cout << "dd2\n";
+        Object.Geom[0] = dCreateBox(space, sides[0], sides[1], sides[2]);
         dGeomSetBody(Object.Geom[0], Object.Body);
 
-        dMassCheck(&m);
+       // dMassSetBoxTotal(&m, mass, sides[0], sides[1], sides[2]);
+        dBodySetMass(Object.Body, &m);
+       // dMassTranslate(&m,10,10,10);
+    std::cout << "dd1\n";
 
-        std::cout << "dd3\n";
-        Object.Body = dBodyCreate(World);
-
-       // dMassSetBoxTotal(&m, mass, sides[0], sides[1], sides[2]); //ustawia gestosc dla masy dMassSetBoxTotal
+    //Object.Geom[0] = dCreateBox(Space, sides[0], sides[1], sides[2]);
 
 
+    std::cout << "dd2\n";
+
+    //dGeomSetBody(Object.Geom[0], Object.Body);
+
+    std::cout << "dd3\n";
+
+    //
+    //dMassSetBoxTotal(&m, mass, sides[0], sides[1], sides[2]); //ustawia gestosc dla masy dMassSetBoxTotal
+
+    std::cout<<m.mass;
+
+    //dBodySetMass(Object.Body, &m);
 }
+
 
 void SimulatorODE::CloseODE(){
     dJointGroupDestroy(contactgroup);
-    dSpaceDestroy(Space);
-    dWorldDestroy(World);
+    dSpaceDestroy(space);
+    dWorldDestroy(world);
 }
 
 void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
@@ -122,11 +153,13 @@ void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
     {
         for (i = 0; i < numc; i++)
         {
-            dJointID c = dJointCreateContact(SimulatorODE::World, SimulatorODE::contactgroup, contact + i);
+            dJointID c = dJointCreateContact(SimulatorODE::world, SimulatorODE::contactgroup, contact + i);
             dJointAttach(c, b1, b2);
         }
     }
 }
+
+
 /*
 void SimulatorODE::ODEtoOGL(float* M, const float* p, const float* R)
 {
@@ -228,11 +261,72 @@ void SimulatorODE::DrawBox(const float sides[3], const float pos[3], const float
 */
 void SimulatorODE::SimLoop()
 {
-    dSpaceCollide(Space, 0, &nearCallback);
-    dWorldQuickStep(World, 0.05);
+    dSpaceCollide(space, 0, &nearCallback);
+    dWorldQuickStep(world, 0.0001);
     dJointGroupEmpty(contactgroup);
     const dReal *pos;
     pos = dGeomGetPosition (Object.Geom[0]);
-    std::cout << "pos: " << pos[0] << ", " << pos[1] << ", " << pos[2] << "\n";
+    std::cout << "pos: x: " << pos[0] << ",y: " << pos[1] << ",z: " << pos[2] << "\n";
+    getchar();
+    //this->notify(
 //  DrawGeom(Object.Geom[0], 0, 0, 0);
 }
+
+/*init cylinder from ode/demos*/
+
+/*void SimulatorODE::InitODE(){
+    {
+      dMass m;
+
+      // setup pointers to drawstuff callback functions
+
+
+      // create world
+      dInitODE2(0);
+      world = dWorldCreate();
+      space = dHashSpaceCreate (0);
+      contactgroup = dJointGroupCreate (0);
+      dWorldSetGravity (world,0,0,-9.8);
+      dWorldSetQuickStepNumIterations (world, 32);
+
+      dCreatePlane (space,0,0,1, 0.0);
+
+      cylbody = dBodyCreate (world);
+      dQuaternion q;
+    #if 0
+      dQFromAxisAndAngle (q,1,0,0,M_PI*0.5);
+    #else
+    //  dQFromAxisAndAngle (q,1,0,0, M_PI * 1.0);
+      dQFromAxisAndAngle (q,1,0,0, M_PI * -0.77);
+    #endif
+      dBodySetQuaternion (cylbody,q);
+      dMassSetCylinder (&m,1.0,3,CYLRADIUS,CYLLENGTH);
+      dBodySetMass (cylbody,&m);
+      cylgeom = dCreateCylinder(0, CYLRADIUS, CYLLENGTH);
+      dGeomSetBody (cylgeom,cylbody);
+      dBodySetPosition (cylbody, 0, 0, 3);
+      dSpaceAdd (space, cylgeom);
+
+      sphbody = dBodyCreate (world);
+      dMassSetSphere (&m,1,SPHERERADIUS);
+      dBodySetMass (sphbody,&m);
+      sphgeom = dCreateSphere(0, SPHERERADIUS);
+      dGeomSetBody (sphgeom,sphbody);
+      dBodySetPosition (sphbody, 0, 0, 5.5);
+      dSpaceAdd (space, sphgeom);
+
+      // run simulation
+      //dsSimulationLoop (argc,argv,352,288,&fn);
+
+      dJointGroupEmpty (contactgroup);
+      dJointGroupDestroy (contactgroup);
+
+      dGeomDestroy(sphgeom);
+      dGeomDestroy (cylgeom);
+
+      dSpaceDestroy (space);
+      dWorldDestroy (world);
+      dCloseODE();
+      return 0;
+    }
+*/

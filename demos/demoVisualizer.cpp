@@ -15,7 +15,7 @@ Simulator* sim;
 void runPUTSLAM(){
     //std::cout << "Press Enter to start\n";
     //getchar();
-    ((SimulatorODE *)sim)->startSimulation();
+    sim->startSimulation();
     std::cout << sim->getName() << "\n";
     sim->stopSimulation();
 }

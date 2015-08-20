@@ -9,21 +9,6 @@
  * simulator implementation
  */
 
-
-/**
- * @return void
- */
-void Simulator::startSimulation() {
-    return;
-}
-
-/**
- * @return void
- */
-void Simulator::stopSimulation() {
-    return;
-}
-
 /**
  * @return Vec3
  */
