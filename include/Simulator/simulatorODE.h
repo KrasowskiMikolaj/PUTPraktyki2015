@@ -89,13 +89,11 @@ struct MyObject
 
     static void nearCallback (void *data, dGeomID o1, dGeomID o2);
 
-//    void DrawGeom (dGeomID g, const dReal *pos, const dReal *R, int show_aabb);
+    void DrawGeom (dGeomID g, const dReal *pos, const dReal *R, int show_aabb);
 
-//    void DrawBox(const float sides[3], const float pos[3], const float R[12]);
-
-//    void ODEtoOGL(float* M, const float* p, const float* R);
- protected:
+     protected:
     Config config;
 };
+
 
 #endif //_SIMULATORODE_H
