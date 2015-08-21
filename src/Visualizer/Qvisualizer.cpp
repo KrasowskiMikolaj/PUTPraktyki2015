@@ -166,3 +166,84 @@ std::string QGLVisualizer::help() const{
     return text;
 }
 
+
+void QGLVisualizer::ODEtoOGL(float* M, const float* p, const float* R)
+{
+    M[0]  = R[0]; M[1]  = R[4]; M[2]  = R[8];  M[3]  = 0;
+    M[4]  = R[1]; M[5]  = R[5]; M[6]  = R[9];  M[7]  = 0;
+    M[8]  = R[2]; M[9]  = R[6]; M[10] = R[10]; M[11] = 0;
+    M[12] = p[0]; M[13] = p[1]; M[14] = p[2];  M[15] = 1;
+}
+
+void QGLVisualizer::DrawBox(const float sides[3], const float pos[3], const float R[12])
+{
+    float mat_ambient[] = { 0.8, 0.8, 0.8, 1.0 };
+    float mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+
+    //glBindTexture(GL_TEXTURE_2D, texture[0].TexID);
+
+    glPushMatrix();
+    float M[16];
+    GeomMatrix.ODEtoOGL(M, pos, R);
+    glMultMatrixf(GeomMatrix.Element);
+    glBegin(GL_TRIANGLES);
+        // Front Face
+            glNormal3fv(&polygon[0].Vertex[0].nx);
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[0].Vertex[0].x);
+        glTexCoord2f(1.0f, 0.0f); glVertex3fv(&polygon[0].Vertex[1].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[0].Vertex[2].x);
+
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[1].Vertex[0].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[1].Vertex[1].x);
+        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[1].Vertex[2].x);
+        // Back Face
+            glNormal3fv(&polygon[2].Vertex[0].nx);
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[2].Vertex[0].x);
+        glTexCoord2f(1.0f, 0.0f); glVertex3fv(&polygon[2].Vertex[1].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[2].Vertex[2].x);
+
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[3].Vertex[0].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[3].Vertex[1].x);
+        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[3].Vertex[2].x);
+        // Top Face
+            glNormal3fv(&polygon[4].Vertex[0].nx);
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[4].Vertex[0].x);
+        glTexCoord2f(1.0f, 0.0f); glVertex3fv(&polygon[4].Vertex[1].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[4].Vertex[2].x);
+
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[5].Vertex[0].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[5].Vertex[1].x);
+        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[5].Vertex[2].x);
+        // Bottom Face
+            glNormal3fv(&polygon[6].Vertex[0].nx);
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[6].Vertex[0].x);
+        glTexCoord2f(1.0f, 0.0f); glVertex3fv(&polygon[6].Vertex[1].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[6].Vertex[2].x);
+
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[7].Vertex[0].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[7].Vertex[1].x);
+        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[7].Vertex[2].x);
+        // Right face
+            glNormal3fv(&polygon[8].Vertex[0].nx);
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[8].Vertex[0].x);
+        glTexCoord2f(1.0f, 0.0f); glVertex3fv(&polygon[8].Vertex[1].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[8].Vertex[2].x);
+
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[9].Vertex[0].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[9].Vertex[1].x);
+        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[9].Vertex[2].x);
+        // Left Face
+            glNormal3fv(&polygon[10].Vertex[0].nx);
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[10].Vertex[0].x);
+        glTexCoord2f(1.0f, 0.0f); glVertex3fv(&polygon[10].Vertex[1].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[10].Vertex[2].x);
+
+        glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[11].Vertex[0].x);
+        glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[11].Vertex[1].x);
+        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[11].Vertex[2].x);
+    glEnd();
+    glPopMatrix();
+}
+

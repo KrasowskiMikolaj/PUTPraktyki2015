@@ -12,6 +12,8 @@
 #include "../3rdParty/tinyXML/tinyxml2.h"
 #include <QGLViewer/qglviewer.h>
 #include <iostream>
+#include "../include/Visualizer/matrix.h"
+#include "../include/Visualizer/polygon.h"
 
 using namespace simulator;
 
@@ -51,11 +53,18 @@ public:
     /// Observer update
     void update(std::vector<simulator::Mat34>& envState);
 
+    void DrawBox(const float sides[3], const float pos[3], const float R[12]);
+
+    void ODEtoOGL(float* M, const float* p, const float* R);
 
 private:
     Config config;
 
     std::vector<simulator::Mat34> envState;
+
+    MATRIX GeomMatrix;
+
+    POLYGON *polygon;
 
     /// draw objects
     void draw();

@@ -41,14 +41,11 @@ int main(int argc, char** argv)
         QGLVisualizer visu(configVis);
 
         visu.setWindowTitle("Simulator viewer");
-std::cout << "df\n";
         // Make the viewer window visible on screen.
         visu.show();
         sim->attachVisualizer(&visu);
-std::cout << "df1\n";
         // run PUTSLAM
         std::thread tSLAM(runPUTSLAM);
-std::cout << "df2\n";
         // Run main loop.
         application.exec();
         tSLAM.join();
