@@ -182,7 +182,7 @@ void QGLVisualizer::DrawBox(const float sides[3], const float pos[3], const floa
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 
-    //glBindTexture(GL_TEXTURE_2D, texture[0].TexID);
+    glBindTexture(GL_TEXTURE_2D, texture[0].TexID);
 
     glPushMatrix();
     float M[16];
