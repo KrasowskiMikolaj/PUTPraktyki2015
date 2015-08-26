@@ -47,6 +47,7 @@ simulator::Simulator* simulator::createODESimulator(std::string configFilename) 
 
 void SimulatorODE::startSimulation(){
     InitODE();
+    std::cout <<"end ode\n";
     while(1)
         SimLoop();
 }
@@ -67,12 +68,12 @@ void SimulatorODE::InitODE(){
     dWorldSetContactSurfaceLayer(world, 0.001);
     dWorldSetAutoDisableFlag(world, 1);
     dInitODE();
-    dReal *R;
+    dReal R[9];
     dMass m;
     double mass = 24;
     Object.Body = dBodyCreate(world);
     double sides[3];
-
+std::cout << "ds4\n";
         // Set up for static object - rama glowna
         sides[0] = 0.03;
         sides[1] = 0.03;
@@ -90,6 +91,7 @@ void SimulatorODE::InitODE(){
         Object.Geom[0] = dCreateBox(space, sides[0], sides[1], sides[2]);
         dGeomSetBody(Object.Geom[0], Object.Body);
         dBodySetMass(Object.Body, &m);
+        std::cout << "ds3\n";
 }
 
 
@@ -127,10 +129,12 @@ void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
 
 void SimulatorODE::SimLoop()
 {
+    std::cout << "ds1\n";
     dSpaceCollide(space, 0, &nearCallback);
     dWorldQuickStep(world, 0.0001);
     dJointGroupEmpty(contactgroup);
     const dReal *pos;
+    std::cout << "ds\n";
     pos = dGeomGetPosition (Object.Geom[0]);
     std::cout << "pos: x: " << pos[0] << ",y: " << pos[1] << ",z: " << pos[2] << "\n";
     getchar();
