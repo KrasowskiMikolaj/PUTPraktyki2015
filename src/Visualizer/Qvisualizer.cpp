@@ -101,12 +101,21 @@ QGLVisualizer::~QGLVisualizer(void) {
 
 /// Observer update
 void QGLVisualizer::update(std::vector<simulator::Mat34>& envState) {
+    mtxObjects.lock();
+    objects = envState;
+    mtxObjects.unlock();
 }
 
 /// draw objects
 void QGLVisualizer::draw(){
     // Here we are in the world coordinate system. Draw unit size axis.
     drawAxis();
+    SolidSphere sphere(0.1,64,64);
+    mtxObjects.lock();
+    if (objects.size()>0){
+        sphere.draw(objects[0](0,3),objects[0](1,3),objects[0](2,3));
+    }
+    mtxObjects.unlock();
 }
 
 /// draw objects
@@ -132,8 +141,7 @@ void QGLVisualizer::init(){
     camera()->setZNearCoefficient(0.00001);
     camera()->setZClippingCoefficient(100.0);
 
-    QColor bgColor(0.5,0.5,0.5,1);
-    setBackgroundColor(bgColor);
+    //setBackgroundColor(config.backgroundColor);
 
     glEnable(GL_LINE_SMOOTH);
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);

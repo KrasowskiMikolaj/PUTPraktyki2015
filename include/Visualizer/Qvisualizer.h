@@ -14,6 +14,8 @@
 #include <iostream>
 #include "../include/Visualizer/matrix.h"
 #include "../include/Visualizer/polygon.h"
+#include <thread>
+#include <mutex>
 
 using namespace simulator;
 
@@ -62,6 +64,9 @@ private:
 
     ///objects 2 draw
     std::vector<Mat34> objects;
+
+    ///mutex
+    std::mutex mtxObjects;
 
     /// draw objects
     void draw();

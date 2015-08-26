@@ -33,7 +33,7 @@ public:
     ///ODE Space
     dSpaceID space;
 
-#define MAX_CONTACTS 1
+#define MAX_CONTACTS 1024
 
 //    MATRIX GeomMatrix;
 #define GEOMSPERBODY 1  // maximum number of geometries per body
