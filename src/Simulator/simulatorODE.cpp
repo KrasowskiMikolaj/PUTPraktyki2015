@@ -63,7 +63,7 @@ void SimulatorODE::InitODE(){
     dWorldSetGravity(world, 0,0,-9.81);
     dWorldSetERP(world, 0.2);
     dWorldSetCFM(world, 1e-5);
-    dWorldSetContactMaxCorrectingVel(world, 2.9);
+    dWorldSetContactMaxCorrectingVel(world, 20.9);
     dWorldSetContactSurfaceLayer(world, 0.0);
     dWorldSetAutoDisableFlag(world, 0);
     dInitODE();
@@ -82,7 +82,7 @@ void SimulatorODE::InitODE(){
         pos[2]=10;
         dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
         dBodySetLinearVel(Object.Body, 0, 0, 0);
-        dRFromAxisAndAngle(R, 1, 0, 0, 0);
+        dRFromAxisAndAngle(R, 1, 0, 0, 3.14/3);
         dBodySetRotation(Object.Body, R);
          //ustawia gestosc dla masy dMassSetBoxTotal
         dMassSetParameters(&m,mass,0,0,0,1,1,1,0,0,0);
@@ -132,9 +132,21 @@ void SimulatorODE::SimLoop()
     const dReal *pos;
     pos = dGeomGetPosition (Object.Geom[0]);
     std::vector<Mat34> objects;
-    Mat34 box1(Vec3(pos[0],pos[1],pos[2])*Quaternion(1,0,0,0));
+    const dReal *R=dBodyGetRotation(Object.Body);
+    Mat34 box1;
+    box1(0,0)=R[0];
+    box1(0,1)=R[4];
+    box1(0,2)=R[8];
+    box1(0,3)=pos[0];
+    box1(1,0)=R[1];
+    box1(1,1)=R[5];
+    box1(1,2)=R[9];
+    box1(1,3)=pos[1];
+    box1(2,0)=R[2];
+    box1(2,1)=R[6];
+    box1(2,2)=R[10];
+    box1(2,3)=pos[2];
+    //Mat34 box1(Vec3(pos[0],pos[1],pos[2])*Quaternion(1,0,0,0));
     objects.push_back(box1);
     this->notify(objects);
-    //this->notify(
-//  DrawGeom(Object.Geom[0], 0, 0, 0);
 }

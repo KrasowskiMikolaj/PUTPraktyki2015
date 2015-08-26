@@ -55,7 +55,7 @@ public:
     /// Observer update
     void update(std::vector<simulator::Mat34>& envState);
 
-    void DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,GLfloat x, GLfloat y,GLfloat z);
+    void DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,Mat34 object);
 
 
 private:

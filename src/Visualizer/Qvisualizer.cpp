@@ -111,10 +111,10 @@ void QGLVisualizer::draw(){
     // Here we are in the world coordinate system. Draw unit size axis.
     drawAxis();
     //SolidSphere sphere(0.1,64,64);
-    DrawBox(1,1,1,objects[0](0,3),objects[0](1,3),objects[0](2,3));
+    DrawBox(0.1,0.1,0.1,objects[0]);
     mtxObjects.lock();
     if (objects.size()>0){
-       DrawBox(1,1,1,objects[0](0,3),objects[0](1,3),objects[0](2,3));
+       DrawBox(0.1,0.1,0.1,objects[0]);
         //sphere.draw(objects[0](0,3),objects[0](1,3),objects[0](2,3));
     }
     mtxObjects.unlock();
@@ -176,16 +176,15 @@ std::string QGLVisualizer::help() const{
     return text;
 }
 
-void QGLVisualizer::DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,GLfloat x, GLfloat y,GLfloat z)
+void QGLVisualizer::DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,Mat34 object)
 {
-    float mat_ambient[] = { 0.8, 0.8, 0.8, 1.0 };
-    float mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
-    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-
-
+    float_type GLmat[16]={object(0,0), object(1,0), object(2,0), object(3,0),
+                          object(0,1), object(1,1), object(2,1), object(3,1),
+                          object(0,2), object(1,2), object(2,2), object(3,2),
+                          object(0,3), object(1,3), object(2,3), object(3,3)};
     glPushMatrix();
-    glTranslatef(x,y,z);
+    glMultMatrixd(GLmat);
+                ///rysowanie szescianu
     glScalef(sizeX,sizeY,sizeZ);
     glBegin(GL_QUADS);
 
@@ -193,103 +192,60 @@ void QGLVisualizer::DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,GLfloat x
     glBegin(GL_POLYGON);
 
     glColor3f( 0.0, 1.0, 1.0 );
-    glVertex3f(  0.5, -0.5, -0.5 );
-    glVertex3f(  0.5,  0.5, -0.5 );
-    glVertex3f( -0.5,  0.5, -0.5 );
-    glVertex3f( -0.5, -0.5, -0.5 );
+    glVertex3f(  0.5+object(0,3), -0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f(  0.5+object(0,3),  0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3),  0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3), -0.5+object(1,3), -0.5+object(2,3) );
 
     glEnd();
 
     // White side - BACK
     glBegin(GL_POLYGON);
     glColor3f(   1.0,  1.0, 1.0 );
-    glVertex3f(  0.5, -0.5, 0.5 );
-    glVertex3f(  0.5,  0.5, 0.5 );
-    glVertex3f( -0.5,  0.5, 0.5 );
-    glVertex3f( -0.5, -0.5, 0.5 );
+    glVertex3f(  0.5+object(0,3), -0.5+object(1,3), 0.5+object(2,3) );
+    glVertex3f(  0.5+object(0,3),  0.5+object(1,3), 0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3),  0.5+object(1,3), 0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3), -0.5+object(1,3), 0.5+object(2,3) );
     glEnd();
 
     // Purple side - RIGHT
     glBegin(GL_POLYGON);
     glColor3f(  1.0,  0.0,  1.0 );
-    glVertex3f( 0.5, -0.5, -0.5 );
-    glVertex3f( 0.5,  0.5, -0.5 );
-    glVertex3f( 0.5,  0.5,  0.5 );
-    glVertex3f( 0.5, -0.5,  0.5 );
+    glVertex3f( 0.5+object(0,3), -0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f( 0.5+object(0,3),  0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f( 0.5+object(0,3),  0.5+object(1,3),  0.5+object(2,3) );
+    glVertex3f( 0.5+object(0,3), -0.5+object(1,3),  0.5+object(2,3) );
     glEnd();
 
     // Green side - LEFT
     glBegin(GL_POLYGON);
     glColor3f(   0.0,  1.0,  0.0 );
-    glVertex3f( -0.5, -0.5,  0.5 );
-    glVertex3f( -0.5,  0.5,  0.5 );
-    glVertex3f( -0.5,  0.5, -0.5 );
-    glVertex3f( -0.5, -0.5, -0.5 );
+    glVertex3f( -0.5+object(0,3), -0.5+object(1,3),  0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3),  0.5+object(1,3),  0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3),  0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3), -0.5+object(1,3), -0.5+object(2,3) );
     glEnd();
 
     // Blue side - TOP
     glBegin(GL_POLYGON);
     glColor3f(   0.0,  0.0,  1.0 );
-    glVertex3f(  0.5,  0.5,  0.5 );
-    glVertex3f(  0.5,  0.5, -0.5 );
-    glVertex3f( -0.5,  0.5, -0.5 );
-    glVertex3f( -0.5,  0.5,  0.5 );
+    glVertex3f(  0.5+object(0,3),  0.5+object(1,3),  0.5+object(2,3) );
+    glVertex3f(  0.5+object(0,3),  0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3),  0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3),  0.5+object(1,3),  0.5+object(2,3) );
     glEnd();
 
     // Red side - BOTTOM
     glBegin(GL_POLYGON);
     glColor3f(   1.0,  0.0,  0.0 );
-    glVertex3f(  0.5, -0.5, -0.5 );
-    glVertex3f(  0.5, -0.5,  0.5 );
-    glVertex3f( -0.5, -0.5,  0.5 );
-    glVertex3f( -0.5, -0.5, -0.5 );
+    glVertex3f(  0.5+object(0,3), -0.5+object(1,3), -0.5+object(2,3) );
+    glVertex3f(  0.5+object(0,3), -0.5+object(1,3),  0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3), -0.5+object(1,3),  0.5+object(2,3) );
+    glVertex3f( -0.5+object(0,3), -0.5+object(1,3), -0.5+object(2,3) );
     glEnd();
 
     glFlush();
 
-/*
-    //FRONT
-    glColor3f(1.0,0.0,1.0); //PURPLE
-    glVertex3f(-sizeX/2,-sizeY/2,sizeZ/2);
-    glVertex3f(-sizeX/2,sizeY/2,sizeZ/2);
-    glVertex3f(sizeX/2,sizeY/2,sizeZ/2);
-    glVertex3f(sizeX/2,-sizeY/2,sizeZ/2);
-
-    //RIGHT
-    glColor3f(0.0,1.0,0.0); //GREEN
-    glVertex3f(sizeX/2,-sizeY/2,sizeZ/2);
-    glVertex3f(sizeX/2,-sizeY/2,-sizeZ/2);
-    glVertex3f(sizeX/2,sizeY/2,-sizeZ/2);
-    glVertex3f(sizeX/2,sizeY/2,sizeZ/2);
-
-    //LEFT
-    glColor3f(0.0,0.0,1.0); //BLUE
-    glVertex3f(-sizeX/2,-sizeY/2,sizeZ/2);
-    glVertex3f(-sizeX/2,-sizeY/2,-sizeZ/2);
-    glVertex3f(-sizeX/2,sizeY/2,-sizeZ/2);
-    glVertex3f(-sizeX/2,sizeY/2,sizeZ/2);
-
-    //TOP
-    glColor3f(1.0,1.0,0.0); //YELLOW
-    glVertex3f(sizeX/2,sizeY/2,sizeZ/2);
-    glVertex3f(sizeX/2,sizeY/2,-sizeZ/2);
-    glVertex3f(-sizeX/2,sizeY/2,-sizeZ/2);
-    glVertex3f(-sizeX/2,sizeY/2,sizeZ/2);
-
-    //BOTTOM
-    glColor3f(0.0,1.0,1.0); //CYAN
-    glVertex3f(sizeX/2,-sizeY/2,sizeZ/2);
-    glVertex3f(sizeX/2,-sizeY/2,-sizeZ/2);
-    glVertex3f(-sizeX/2,-sizeY/2,-sizeZ/2);
-    glVertex3f(-sizeX/2,-sizeY/2,sizeZ/2);
-
-    //BACK
-    glColor3f(1.0,0.0,0.0); //RED
-    glVertex3f(-sizeX/2,-sizeY/2,-sizeZ/2);
-    glVertex3f(sizeX/2,-sizeY/2,-sizeZ/2);
-    glVertex3f(sizeX/2,sizeY/2,-sizeZ/2);
-    glVertex3f(-sizeX/2,sizeY/2,-sizeZ/2);
-*/
     glEnd();
     glPopMatrix();
 }
