@@ -11,6 +11,7 @@
 dJointGroupID SimulatorODE::contactgroup;
 dWorldID SimulatorODE::world;
 
+SimulatorODE::Config SimulatorODE::config;
 
 
 using namespace simulator;
@@ -19,11 +20,11 @@ using namespace simulator;
 SimulatorODE::Ptr simulatorODE;
 
 SimulatorODE::SimulatorODE(void) : Simulator("ODE simulator", TYPE_ODE) {
-
 }
 
 /// Construction
-SimulatorODE::SimulatorODE(std::string configFilename) : config(configFilename), Simulator("ODE simulator", TYPE_ODE){
+SimulatorODE::SimulatorODE(std::string configFilename) : configFilename(configFilename), Simulator("ODE simulator", TYPE_ODE){
+    config.load(configFilename);
 }
 
 SimulatorODE::~SimulatorODE(void) {
@@ -64,7 +65,7 @@ void SimulatorODE::InitODE(){
     dWorldSetERP(world, 0.2);
     dWorldSetCFM(world, 1e-5);
     dWorldSetContactMaxCorrectingVel(world, 0.9);
-    dWorldSetContactSurfaceLayer(world, 0.0);
+    dWorldSetContactSurfaceLayer(world, 0.001);
     dWorldSetAutoDisableFlag(world, 0);
     dInitODE();
     dMatrix3 R;
@@ -79,10 +80,11 @@ void SimulatorODE::InitODE(){
         dReal pos[3];
         pos[0]=0;
         pos[1]=0;
-        pos[2]=1.75;
+        pos[2]=0.95;
         dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
         dBodySetLinearVel(Object.Body, 0, 0, 0);
-        dRFromAxisAndAngle(R, 1, 0, 0, 0.0);
+        //dRFromEulerAngles();
+        dRFromAxisAndAngle(R, 1, 0, 0, 0.4);
         dBodySetRotation(Object.Body, R);
          //ustawia gestosc dla masy dMassSetBoxTotal
         dMassSetParameters(&m,mass,0,0,0,1,1,1,0,0,0);
@@ -107,8 +109,8 @@ void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
     for (i = 0; i < MAX_CONTACTS; i++)
     {
         contact[i].surface.mode = dContactBounce | dContactSoftCFM;
-        contact[i].surface.mu = 8.5;
-        contact[i].surface.mu2 = 8.5;
+        contact[i].surface.mu = config.friction;
+        contact[i].surface.mu2 = config.friction;
         contact[i].surface.bounce = 0.15;    // changed
         contact[i].surface.bounce_vel = 0.5;     // changed
         contact[i].surface.soft_cfm = 0.107;
@@ -123,11 +125,10 @@ void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
     }
 }
 
-
 void SimulatorODE::SimLoop()
 {
     dSpaceCollide(space, 0, &nearCallback);
-    dWorldQuickStep(world, 0.000001);
+    dWorldQuickStep(world, 0.0001);
     dJointGroupEmpty(contactgroup);
     const dReal *pos;
     pos = dGeomGetPosition (Object.Geom[0]);
@@ -141,12 +142,14 @@ void SimulatorODE::SimLoop()
     box1(1,0)=R[1];
     box1(1,1)=R[5];
     box1(1,2)=R[9];
-    box1(1,3)=pos[1];
+    box1(1,3)=-pos[1];
     box1(2,0)=R[2];
     box1(2,1)=R[6];
     box1(2,2)=R[10];
     box1(2,3)=pos[2];
     //Mat34 box1(Vec3(pos[0],pos[1],pos[2])*Quaternion(1,0,0,0));
+    //std::cout << box1.matrix() << "\n";
+    //std::cout << pos[0] << ", " << pos[1] << ", " << pos[2] << "\n";
     objects.push_back(box1);
     this->notify(objects);
     //getchar();

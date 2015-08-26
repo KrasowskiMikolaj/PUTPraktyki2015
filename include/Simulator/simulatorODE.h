@@ -50,15 +50,20 @@ struct MyObject
       public:
         Config() {
         }
-        Config(std::string configFilename){
+        Config(std::string configFilename) {
+            load(configFilename);
+        }
+        void load(std::string configFilename){
             tinyxml2::XMLDocument config;
             std::string filename = "../../resources/" + configFilename;
             config.LoadFile(filename.c_str());
             if (config.ErrorID())
                 std::cout << "unable to load Map config file.\n";
             config.FirstChildElement( "Ground" )->FirstChildElement( "parameters" )->QueryDoubleAttribute("friction", &friction);
+            std::cout << "ODE parameters:\n";
             std::cout << "Friction: " << friction << "\n";
         }
+
         public:
             /// friction
             float_type friction;
@@ -91,7 +96,9 @@ struct MyObject
     static void nearCallback (void *data, dGeomID o1, dGeomID o2);
 
      protected:
-    Config config;
+    static Config config;
+
+    std::string configFilename;
 };
 
 

@@ -2,5 +2,5 @@
 
 <!-- Visualizer configuration -->
   <Ground>
-  	<parameters friction="1.1"></parameters>
+  	<parameters friction="8.5" bounce="0.15"></parameters>
   </Ground>

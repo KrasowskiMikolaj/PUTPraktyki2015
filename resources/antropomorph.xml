@@ -15,5 +15,11 @@
   <Segment0 mass="" sizeX="" sizeY="" sizeZ="" centerX="0" centerY="0" centerZ="0" centerRoll="0" centerPitch="0" centerYaw="0">
   </Segment>
   
+  <Segment1 mass="" sizeX="" sizeY="" sizeZ="" centerX="0" centerY="0" centerZ="0" centerRoll="0" centerPitch="0" centerYaw="0">
+  </Segment>
+  
+  <Segment3 mass="" sizeX="" sizeY="" sizeZ="" centerX="0" centerY="0" centerZ="0" centerRoll="0" centerPitch="0" centerYaw="0">
+  </Segment>
+  
   <Foot axisX="0" axisY="1" axisZ="0" centerX="0" centerY="1" centerZ="0">
   </Foot>

@@ -32,7 +32,7 @@ int main(int argc, char** argv)
         QGLVisualizer::Config configVis(configFile);//something is wrong with QApplication when Qapplication
         //object is created. libTinyxml can read only ints from xml file
 
-        sim = simulator::createODESimulator();
+        sim = simulator::createODESimulator("ode.xml");
 
         QApplication application(argc,argv);
 
