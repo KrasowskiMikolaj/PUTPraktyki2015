@@ -90,8 +90,6 @@ struct MyObject
 
     static void nearCallback (void *data, dGeomID o1, dGeomID o2);
 
-    void DrawGeom (dGeomID g, const dReal *pos, const dReal *R, int show_aabb);
-
      protected:
     Config config;
 };

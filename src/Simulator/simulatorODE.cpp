@@ -59,8 +59,8 @@ void SimulatorODE::InitODE(){
     world=dWorldCreate();
     space=dSimpleSpaceCreate(0);
     contactgroup = dJointGroupCreate(0);
-    dCreatePlane(space,0,1,0,0);
-    dWorldSetGravity(world, 0,-9.81,0);
+    dCreatePlane(space,0,0,1,0);
+    dWorldSetGravity(world, 0,0,-9.81);
     dWorldSetERP(world, 0.2);
     dWorldSetCFM(world, 1e-5);
     dWorldSetContactMaxCorrectingVel(world, 0.9);
@@ -77,10 +77,10 @@ void SimulatorODE::InitODE(){
         sides[0] = 0.03;
         sides[1] = 0.03;
         sides[2] = 0.03;
-    dReal pos[3];
+        dReal pos[3];
         pos[0]=0;
-        pos[1]=10;
-        pos[2]=0;
+        pos[1]=0;
+        pos[2]=10;
         dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
         dBodySetLinearVel(Object.Body, 0, 0, 0);
         dRFromAxisAndAngle(R, 1, 0, 0, 0);
@@ -90,10 +90,6 @@ void SimulatorODE::InitODE(){
         Object.Geom[0] = dCreateBox(space, sides[0], sides[1], sides[2]);
         dGeomSetBody(Object.Geom[0], Object.Body);
         dBodySetMass(Object.Body, &m);
-<<<<<<< HEAD
-        DrawGeom(Object.Geom[0],&pos,&R,0);
-=======
->>>>>>> 88e60b9de02cbbaa03aed684d4af796fe8297300
 }
 
 
@@ -129,26 +125,6 @@ void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
 }
 
 
-void SimulatorODE::DrawGeom (dGeomID g, const dReal *pos, const dReal *R, int show_aabb)
-{
-    if (!g)
-        return;
-    if (!pos)
-        pos = dGeomGetPosition (g);
-    if (!R)
-        R = dGeomGetRotation (g);
-    int type = dGeomGetClass (g);
-
-    if (type == dBoxClass)
-    {
-        dReal sides[3];
-        dGeomBoxGetLengths(g, sides);
-        DrawBox(sides, pos, R);
-    }
-}
-
-/*
-*/
 void SimulatorODE::SimLoop()
 {
     dSpaceCollide(space, 0, &nearCallback);

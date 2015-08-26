@@ -182,19 +182,15 @@ void QGLVisualizer::DrawBox(const float sides[3], const float pos[3], const floa
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 
-<<<<<<< HEAD
-    glBindTexture(GL_TEXTURE_2D, texture[0].TexID);
-=======
     //glBindTexture(GL_TEXTURE_2D, texture[0].TexID);
->>>>>>> 88e60b9de02cbbaa03aed684d4af796fe8297300
 
     glPushMatrix();
-    float M[16];
-    GeomMatrix.ODEtoOGL(M, pos, R);
-    glMultMatrixf(GeomMatrix.Element);
+    //float M[16];
+    //ODEtoOGL(M, pos, R);
+    //glMultMatrixf(GeomMatrix.Element);
     glBegin(GL_TRIANGLES);
         // Front Face
-            glNormal3fv(&polygon[0].Vertex[0].nx);
+/*            glNormal3fv(&polygon[0].Vertex[0].nx);
         glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[0].Vertex[0].x);
         glTexCoord2f(1.0f, 0.0f); glVertex3fv(&polygon[0].Vertex[1].x);
         glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[0].Vertex[2].x);
@@ -246,7 +242,7 @@ void QGLVisualizer::DrawBox(const float sides[3], const float pos[3], const floa
 
         glTexCoord2f(0.0f, 0.0f); glVertex3fv(&polygon[11].Vertex[0].x);
         glTexCoord2f(1.0f, 1.0f); glVertex3fv(&polygon[11].Vertex[1].x);
-        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[11].Vertex[2].x);
+        glTexCoord2f(0.0f, 1.0f); glVertex3fv(&polygon[11].Vertex[2].x);*/
     glEnd();
     glPopMatrix();
 }

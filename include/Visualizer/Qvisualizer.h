@@ -60,11 +60,8 @@ public:
 private:
     Config config;
 
-    std::vector<simulator::Mat34> envState;
-
-    MATRIX GeomMatrix;
-
-    POLYGON *polygon;
+    ///objects 2 draw
+    std::vector<Mat34> objects;
 
     /// draw objects
     void draw();

@@ -21,7 +21,7 @@ public:
     void attach(Observer *observer);
     void detach(Observer *observer);
     void notify(std::vector<simulator::Mat34>& envState);
-    void DrawBox(const float sides[3], const float pos[3], const float R[12]);
+    //void DrawBox(const float sides[3], const float pos[3], const float R[12]);
 };
 
 #endif // OBSERVER_H_
