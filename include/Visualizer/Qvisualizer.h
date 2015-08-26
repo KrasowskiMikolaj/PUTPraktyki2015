@@ -55,9 +55,8 @@ public:
     /// Observer update
     void update(std::vector<simulator::Mat34>& envState);
 
-    void DrawBox(const float sides[3], const float pos[3], const float R[12]);
+    void DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,GLfloat x, GLfloat y,GLfloat z);
 
-    void ODEtoOGL(float* M, const float* p, const float* R);
 
 private:
     Config config;
@@ -79,6 +78,8 @@ private:
 
     /// generate help string
     std::string help() const;
+
+     void TranslateBox(GLfloat x, GLfloat y,GLfloat z);
 };
 
 #endif // QVISUALIZER_H_INCLUDED

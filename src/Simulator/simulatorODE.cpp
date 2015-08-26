@@ -73,13 +73,13 @@ void SimulatorODE::InitODE(){
     Object.Body = dBodyCreate(world);
     double sides[3];
         // Set up for static object - rama glowna
-        sides[0] = 0.03;
-        sides[1] = 0.03;
-        sides[2] = 0.03;
+        sides[0] = 0.1;
+        sides[1] = 0.1;
+        sides[2] = 0.1;
         dReal pos[3];
         pos[0]=0;
         pos[1]=0;
-        pos[2]=1;
+        pos[2]=10;
         dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
         dBodySetLinearVel(Object.Body, 0, 0, 0);
         dRFromAxisAndAngle(R, 1, 0, 0, 0);
