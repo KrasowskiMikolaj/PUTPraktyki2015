@@ -110,11 +110,12 @@ void QGLVisualizer::update(std::vector<simulator::Mat34>& envState) {
 void QGLVisualizer::draw(){
     // Here we are in the world coordinate system. Draw unit size axis.
     drawAxis();
-    //SolidSphere sphere(0.1,64,64);
-    DrawBox(0.1,0.1,0.1,objects[0]);
+    SolidSphere sphere(0.1,64,64);
+    sphere.draw(0.5,0.5,1.75);
+    //DrawBox(0.1,0.1,0.1,objects[0]);
     mtxObjects.lock();
     if (objects.size()>0){
-       DrawBox(0.1,0.1,0.1,objects[0]);
+       DrawBox(0.5,0.5,1.5,objects[0]);
         //sphere.draw(objects[0](0,3),objects[0](1,3),objects[0](2,3));
     }
     mtxObjects.unlock();
@@ -244,7 +245,7 @@ void QGLVisualizer::DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,Mat34 obj
     glVertex3f( -0.5+object(0,3), -0.5+object(1,3), -0.5+object(2,3) );
     glEnd();
 
-    glFlush();
+    //glFlush();
 
     glEnd();
     glPopMatrix();

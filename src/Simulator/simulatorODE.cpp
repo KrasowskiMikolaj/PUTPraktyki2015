@@ -63,26 +63,26 @@ void SimulatorODE::InitODE(){
     dWorldSetGravity(world, 0,0,-9.81);
     dWorldSetERP(world, 0.2);
     dWorldSetCFM(world, 1e-5);
-    dWorldSetContactMaxCorrectingVel(world, 20.9);
+    dWorldSetContactMaxCorrectingVel(world, 0.9);
     dWorldSetContactSurfaceLayer(world, 0.0);
     dWorldSetAutoDisableFlag(world, 0);
     dInitODE();
     dMatrix3 R;
     dMass m;
-    double mass = 1;
+    double mass = 0.1;
     Object.Body = dBodyCreate(world);
     double sides[3];
         // Set up for static object - rama glowna
-        sides[0] = 0.1;
-        sides[1] = 0.1;
-        sides[2] = 0.1;
+        sides[0] = 0.5;
+        sides[1] = 0.5;
+        sides[2] = 1.5;
         dReal pos[3];
         pos[0]=0;
         pos[1]=0;
-        pos[2]=10;
+        pos[2]=1.75;
         dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
         dBodySetLinearVel(Object.Body, 0, 0, 0);
-        dRFromAxisAndAngle(R, 1, 0, 0, 3.14/3);
+        dRFromAxisAndAngle(R, 1, 0, 0, 0.0);
         dBodySetRotation(Object.Body, R);
          //ustawia gestosc dla masy dMassSetBoxTotal
         dMassSetParameters(&m,mass,0,0,0,1,1,1,0,0,0);
@@ -107,8 +107,8 @@ void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
     for (i = 0; i < MAX_CONTACTS; i++)
     {
         contact[i].surface.mode = dContactBounce | dContactSoftCFM;
-        contact[i].surface.mu = 0.5;
-        contact[i].surface.mu2 = 0.5;
+        contact[i].surface.mu = 8.5;
+        contact[i].surface.mu2 = 8.5;
         contact[i].surface.bounce = 0.15;    // changed
         contact[i].surface.bounce_vel = 0.5;     // changed
         contact[i].surface.soft_cfm = 0.107;
@@ -149,4 +149,5 @@ void SimulatorODE::SimLoop()
     //Mat34 box1(Vec3(pos[0],pos[1],pos[2])*Quaternion(1,0,0,0));
     objects.push_back(box1);
     this->notify(objects);
+    //getchar();
 }
