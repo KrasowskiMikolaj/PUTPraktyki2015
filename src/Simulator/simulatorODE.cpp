@@ -90,7 +90,10 @@ void SimulatorODE::InitODE(){
         Object.Geom[0] = dCreateBox(space, sides[0], sides[1], sides[2]);
         dGeomSetBody(Object.Geom[0], Object.Body);
         dBodySetMass(Object.Body, &m);
+<<<<<<< HEAD
         DrawGeom(Object.Geom[0],&pos,&R,0);
+=======
+>>>>>>> 88e60b9de02cbbaa03aed684d4af796fe8297300
 }
 
 
