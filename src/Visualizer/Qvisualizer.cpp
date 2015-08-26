@@ -185,7 +185,7 @@ void QGLVisualizer::DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,GLfloat x
 
 
     glPushMatrix();
-    TranslateBox(x,y,z);
+    glTranslatef(x,y,z);
     glScalef(sizeX,sizeY,sizeZ);
     glBegin(GL_QUADS);
 
@@ -294,8 +294,3 @@ void QGLVisualizer::DrawBox(GLfloat sizeX, GLfloat sizeY,GLfloat sizeZ,GLfloat x
     glPopMatrix();
 }
 
-void QGLVisualizer::TranslateBox(GLfloat x, GLfloat y,GLfloat z)
-{
-    glMatrixMode(GL_MODELVIEW);
-    glTranslatef(x,y,z);
-}

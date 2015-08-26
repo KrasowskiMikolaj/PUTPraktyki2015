@@ -78,8 +78,6 @@ private:
 
     /// generate help string
     std::string help() const;
-
-     void TranslateBox(GLfloat x, GLfloat y,GLfloat z);
 };
 
 #endif // QVISUALIZER_H_INCLUDED
