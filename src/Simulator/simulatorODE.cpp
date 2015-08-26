@@ -67,7 +67,7 @@ void SimulatorODE::InitODE(){
     dWorldSetContactSurfaceLayer(world, 0.001);
     dWorldSetAutoDisableFlag(world, 1);
     dInitODE();
-    dMatrix3 R;
+    dReal *R;
     dMass m;
     double mass = 24;
     Object.Body = dBodyCreate(world);
@@ -77,7 +77,11 @@ void SimulatorODE::InitODE(){
         sides[0] = 0.03;
         sides[1] = 0.03;
         sides[2] = 0.03;
-        dBodySetPosition(Object.Body, 0, 10, 0);
+    dReal pos[3];
+        pos[0]=0;
+        pos[1]=10;
+        pos[2]=0;
+        dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
         dBodySetLinearVel(Object.Body, 0, 0, 0);
         dRFromAxisAndAngle(R, 1, 0, 0, 0);
         dBodySetRotation(Object.Body, R);
@@ -86,6 +90,7 @@ void SimulatorODE::InitODE(){
         Object.Geom[0] = dCreateBox(space, sides[0], sides[1], sides[2]);
         dGeomSetBody(Object.Geom[0], Object.Body);
         dBodySetMass(Object.Body, &m);
+        DrawGeom(Object.Geom[0],&pos,&R,0);
 }
 
 

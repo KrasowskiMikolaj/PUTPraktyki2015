@@ -10,6 +10,7 @@
 #include "../3rdParty/tinyXML/tinyxml2.h"
 #include <ode/ode.h>
 #include <iostream>
+#include "../include/Visualizer/observer.h"
 //#include "../include/Simulator/matrix.h"
 //#include "../include/Simulator/vector.h"
 
