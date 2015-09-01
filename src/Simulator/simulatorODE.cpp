@@ -111,9 +111,9 @@ void SimulatorODE::nearCallback (void *data, dGeomID o1, dGeomID o2)
         contact[i].surface.mode = dContactBounce | dContactSoftCFM;
         contact[i].surface.mu = config.friction;
         contact[i].surface.mu2 = config.friction;
-        contact[i].surface.bounce = 0.15;    // changed
-        contact[i].surface.bounce_vel = 0.5;     // changed
-        contact[i].surface.soft_cfm = 0.107;
+        contact[i].surface.bounce = config.bounce;    // changed
+        contact[i].surface.bounce_vel = config.bounce_vel;     // changed
+        contact[i].surface.soft_cfm = config.soft_cfm;
     }
     if (int numc = dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact)))
     {

@@ -12,8 +12,6 @@
 #include "../3rdParty/tinyXML/tinyxml2.h"
 #include <QGLViewer/qglviewer.h>
 #include <iostream>
-#include "../include/Visualizer/matrix.h"
-#include "../include/Visualizer/polygon.h"
 #include <thread>
 #include <mutex>
 

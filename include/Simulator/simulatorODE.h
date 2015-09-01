@@ -11,8 +11,6 @@
 #include <ode/ode.h>
 #include <iostream>
 #include "../include/Visualizer/observer.h"
-//#include "../include/Simulator/matrix.h"
-//#include "../include/Simulator/vector.h"
 
 namespace simulator {
 
@@ -60,13 +58,22 @@ struct MyObject
             if (config.ErrorID())
                 std::cout << "unable to load Map config file.\n";
             config.FirstChildElement( "Ground" )->FirstChildElement( "parameters" )->QueryDoubleAttribute("friction", &friction);
+            config.FirstChildElement( "Ground" )->FirstChildElement( "parameters" )->QueryDoubleAttribute("bounce", &bounce);
+            config.FirstChildElement( "Ground" )->FirstChildElement( "parameters" )->QueryDoubleAttribute("bounce_vel", &bounce_vel);
+            config.FirstChildElement( "Ground" )->FirstChildElement( "parameters" )->QueryDoubleAttribute("soft_cfm", &soft_cfm);
             std::cout << "ODE parameters:\n";
             std::cout << "Friction: " << friction << "\n";
+            std::cout << "Bounce: " << bounce << "\n";
+            std::cout << "Bounce_vel: " << bounce_vel << "\n";
+            std::cout << "soft_cfm: " << soft_cfm << "\n";
         }
 
         public:
             /// friction
             float_type friction;
+            float_type bounce;
+            float_type bounce_vel;
+            float_type soft_cfm;
     };
     /// Construction
     SimulatorODE(void);
