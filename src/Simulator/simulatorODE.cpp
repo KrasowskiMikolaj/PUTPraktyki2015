@@ -56,6 +56,22 @@ void SimulatorODE::stopSimulation(){
     CloseODE();
 }
 
+void SimulatorODE::createBody(double mass,double sides[3],double pos[3]){
+    dMatrix3 R;
+    dMass m;
+    Object.Body = dBodyCreate(world);
+        dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
+        dBodySetLinearVel(Object.Body, 0, 0, 0);
+        //dRFromEulerAngles();
+        dRFromAxisAndAngle(R, 1, 0, 0, 0.4);
+        dBodySetRotation(Object.Body, R);
+         //ustawia gestosc dla masy dMassSetBoxTotal
+        dMassSetParameters(&m,mass,0,0,0,1,1,1,0,0,0);
+        Object.Geom[0] = dCreateBox(space, sides[0], sides[1], sides[2]);
+        dGeomSetBody(Object.Geom[0], Object.Body);
+        dBodySetMass(Object.Body, &m);
+}
+
 void SimulatorODE::InitODE(){
     world=dWorldCreate();
     space=dSimpleSpaceCreate(0);
@@ -68,29 +84,10 @@ void SimulatorODE::InitODE(){
     dWorldSetContactSurfaceLayer(world, 0.001);
     dWorldSetAutoDisableFlag(world, 0);
     dInitODE();
-    dMatrix3 R;
-    dMass m;
-    double mass = 0.1;
-    Object.Body = dBodyCreate(world);
-    double sides[3];
-        // Set up for static object - rama glowna
-        sides[0] = 0.5;
-        sides[1] = 0.5;
-        sides[2] = 1.5;
-        dReal pos[3];
-        pos[0]=0;
-        pos[1]=0;
-        pos[2]=0.95;
-        dBodySetPosition(Object.Body, pos[0],pos[1],pos[2]);
-        dBodySetLinearVel(Object.Body, 0, 0, 0);
-        //dRFromEulerAngles();
-        dRFromAxisAndAngle(R, 1, 0, 0, 0.4);
-        dBodySetRotation(Object.Body, R);
-         //ustawia gestosc dla masy dMassSetBoxTotal
-        dMassSetParameters(&m,mass,0,0,0,1,1,1,0,0,0);
-        Object.Geom[0] = dCreateBox(space, sides[0], sides[1], sides[2]);
-        dGeomSetBody(Object.Geom[0], Object.Body);
-        dBodySetMass(Object.Body, &m);
+    legs.load("antopomorphic.xml");
+
+    //createBody(legs.segment[]);
+
 }
 
 

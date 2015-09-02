@@ -6,11 +6,14 @@
 #ifndef _LEG_H
 #define _LEG_H
 
-#include "Class2.h"
+#include "../../include/Defs/defs.h"
+#include <iostream>
+#include <string>
 
+using namespace simulator;
 
-class leg: public Class2 {
-protected: 
+class leg {
+protected:
     float_type mass;
     Vec3 attach;
     float_type attachRoll;
@@ -18,7 +21,7 @@ protected:
     float_type attachYaw;
     int jointNo;
     int segmentNo;
-    string name;
+    std::string name;
 };
 
 #endif //_LEG_H

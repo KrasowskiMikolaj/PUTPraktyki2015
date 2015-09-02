@@ -11,6 +11,7 @@
 #include <ode/ode.h>
 #include <iostream>
 #include "../include/Visualizer/observer.h"
+#include "../include/RobotModel/legAntropomorphic.h"
 
 namespace simulator {
 
@@ -106,6 +107,10 @@ struct MyObject
     static Config config;
 
     std::string configFilename;
+
+    void createBody(double mass,double sides[3],double[3]);
+
+    legAntropomorphic legs;
 };
 
 

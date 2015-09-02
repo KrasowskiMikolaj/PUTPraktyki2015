@@ -6,6 +6,7 @@
 #include <qapplication.h>
 #include <iostream>
 #include <thread>
+#include <string>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ void runPUTSLAM(){
     sim->startSimulation();
     std::cout << sim->getName() << "\n";
     sim->stopSimulation();
+
 }
 
 int main(int argc, char** argv)
