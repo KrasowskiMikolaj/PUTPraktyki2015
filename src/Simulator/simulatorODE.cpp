@@ -84,7 +84,7 @@ void SimulatorODE::InitODE(){
     dWorldSetContactSurfaceLayer(world, 0.001);
     dWorldSetAutoDisableFlag(world, 0);
     dInitODE();
-    legs.load("antopomorphic.xml");
+    legs.load("antropomorph.xml");
 
     //createBody(legs.segment[]);
 
